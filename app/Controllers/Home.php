@@ -12,12 +12,12 @@ class Home extends BaseController
 	{
 		$brgModel = new BarangModel();
 		$pmjModel = new PeminjamModel();
-		$pmjModel = new PinjamModel();
+		$pinjam = new PinjamModel();
 		$data = [
 			'brg' => $brgModel->countAll(),
 			'akun' => $pmjModel->countAll(),
-			'peminjaman' => $pmjModel->countAll(),
-			'pengembalian' => $pmjModel->pengembalianShowAll(),
+			'peminjaman' => $pinjam->countAll(),
+			'pengembalian' => $pinjam->pmbCountAll(),
 			'judul' => "Dashboard",
 		];
 

@@ -1,5 +1,5 @@
-<?= view('_partial/_header') ?>
-<?= view('_partial/_sidebar') ?>
+<?= view('admin/_partial/_header') ?>
+<?= view('admin/_partial/_sidebar') ?>
 
 <div class="container-fluid">
 
@@ -11,7 +11,7 @@
             <div class="card-header p-4">
                 <p class="m-0 font-weight-bold text-primary"><i class="ni ni-app"></i> Tambah Barang</p>
             </div>
-            <form action="/peminjaman/simpan" method="post">
+            <form action="/admin/pinjam_simpan" method="post">
                 <?= csrf_field(); ?>
                 <div class="card-body">
                     <div class="row">
@@ -85,4 +85,4 @@
 </div>
 </div>
 
-<?= view('_partial/_footer') ?>
+<?= view('admin/_partial/_footer') ?>

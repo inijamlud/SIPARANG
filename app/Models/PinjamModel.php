@@ -15,6 +15,7 @@ class PinjamModel extends Model
     protected $createdField   = 'created_at';
     protected $updatedField   = 'updated_at';
 
+    // admin func /////////////////////
     public function showAll()
     {
         return $this->db->table('peminjaman')
@@ -22,16 +23,48 @@ class PinjamModel extends Model
             ->join('barang', 'barang.kode_barang = peminjaman.kode_barang')->get()->getResultArray();
     }
 
-    public function pengembalianShowAll()
+    public function peminjamanAll()
     {
         return $this->db->table('peminjaman')
-            ->where('status', '3')
-            ->where('approved', '1')
-            ->countAllResults();
+            ->where('status !=', '0')
+            ->join('users', 'users.id = peminjaman.id_user')
+            ->join('barang', 'barang.kode_barang = peminjaman.kode_barang')->get()->getResultArray();
     }
 
+    public function pengembalianAll()
+    {
+        return $this->db->table('peminjaman')
+            ->where('status', '2')
+            ->join('users', 'users.id = peminjaman.id_user')
+            ->join('barang', 'barang.kode_barang = peminjaman.kode_barang')->get()->getResultArray();
+    }
+
+    public function pmjCountAll()
+    {
+        return $this->db->table('peminjaman')
+            ->where('status !=', '3')
+            ->countAll();
+    }
+
+    public function pmbCountAll()
+    {
+        return $this->db->table('peminjaman')
+            ->where('status !=', '3')
+            ->where('status', '2')
+            ->countAll();
+    }
+
+    // user func /////////////////////
 
     public function peminjaman()
+    {
+        return $this->db->table('peminjaman')
+            ->where('users.username', user()->username)
+            ->join('users', 'users.id = peminjaman.id_user')
+            ->join('barang', 'barang.kode_barang = peminjaman.kode_barang')->get()->getResultArray();
+    }
+
+    public function pengembalian()
     {
         return $this->db->table('peminjaman')
             ->where('users.username', user()->username)

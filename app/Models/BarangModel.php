@@ -18,4 +18,13 @@ class BarangModel extends Model
     protected $createdField   = 'created_at';
     protected $updatedField   = 'updated_at';
 
+    public function checkStock($id)
+    {
+        return $this->db->table('barang')
+            ->selectSum('unit')
+            ->where('kode_barang', $id)
+            ->get()->getRow()->unit;
+    }
+
+    
 }

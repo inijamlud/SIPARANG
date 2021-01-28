@@ -38,9 +38,11 @@
                             <label for="nama_barang">Nama Barang</label>
                             <select name="nama_barang" id="nama_barang" class="form-control">
                                 <option value="">----Pilih Barang----</option>
-                                <?php foreach ($dataBrg as $brg) { ?>
-                                    <option value="<?= $brg['kode_barang']; ?>" <?= ($brg['unit'] == 0) ? 'hidden' : ''; ?>><?= $brg['nama_barang']; ?></option>
-                                <?php } ?>
+                                <?php foreach ($dataBrg as $brg) {
+                                    if ($brg['unit'] != 0) { ?>
+                                        <option value="<?= $brg['kode_barang'] ?>"><?= $brg['nama_barang'] ?></option>
+                                <?php }
+                                } ?>
                             </select>
                             <div class="invalid-feedback">
                                 <?= $verror_msg->getError('nama_barang'); ?>
@@ -50,9 +52,9 @@
                     <div class="row">
                         <div class="form-group col-4">
                             <label for="jumlah">Jumlah barang</label>
-                            <input type="text" name="jumlah" id="jumlah" class="form-control <?= $verror_msg->hasError('jumlah') ? 'is-invalid' : ''; ?>" value="<?= old('jumlah') ?>">
+                            <input type="text" name="jumlah" id="jumlah" class="form-control <?= session()->has('stock') ? 'is-invalid' : ''; ?>" value="<?= old('jumlah') ?>">
                             <div class="invalid-feedback">
-                                <?= $verror_msg->getError('jumlah'); ?>
+                                <?= session()->getFlashdata('stock'); ?>
                             </div>
                         </div>
                         <div class="form-group col-4">

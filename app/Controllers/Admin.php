@@ -17,8 +17,8 @@ class Admin extends BaseController
         $data = [
             'brg' => $brgModel->countAll(),
             'akun' => $pmjModel->countAll(),
-            'peminjaman' => $pinjamModel->countAll(),
-            'pengembalian' => $pinjamModel->pengembalianShowAll(),
+            'peminjaman' => $pinjamModel->pmjcountAll(),
+            'pengembalian' => $pinjamModel->pmbCountAll(),
             'judul' => "Dashboard",
         ];
 
@@ -208,7 +208,7 @@ class Admin extends BaseController
 
         ]);
 
-        return redirect()->to('../admin/peminjam');
+        return redirect()->to('/admin/peminjam');
     }
 
     public function pmj_hapus($id)
@@ -291,9 +291,7 @@ class Admin extends BaseController
         $a = new PinjamModel();
         $data = [
             'dataTransaksi' => $a->showAll(),
-            // 'dataTransaksi' => $a->peminjaman(),
             'dataPmj' => $a->peminjaman(),
-            'judul' => "Data peminjaman"
         ];
         return view('admin/pinjam', $data);
     }
@@ -314,20 +312,16 @@ class Admin extends BaseController
         $pinjam = new PinjamModel();
         $barang = new BarangModel();
 
-        $kode_barang = $this->request->getVar('kode_barang');
-        $checkBrg = $barang->where('kode_barang', $kode_barang)
-            ->findAll();
-        $stock = $checkBrg[0]['unit'];
+        // $kode_barang = $this->request->getVar('kode_barang');
+        // $checkBrg = $barang->where('kode_barang', $kode_barang)
+        //     ->findAll();
+        // $stock = $checkBrg[0]['unit'];
 
         $pinjam->update($id, [
             'status' => '1',
             'approved' => '1',
             'tgl_approved' => date('Y-m-d'),
         ]);
-
-        // $barang->update($kode_barang, [
-        //     'unit' => $stock - 1
-        // ]);
 
         return redirect()->to('../admin/pinjam');
     }
@@ -349,8 +343,6 @@ class Admin extends BaseController
             ->findAll();
         $unit = $checkBrg[0]['unit'];
 
-        // dd($checkJml);
-
         $barang->update($kode_barang, [
             'unit' => $unit + $jml
         ]);
@@ -362,5 +354,21 @@ class Admin extends BaseController
         ]);
 
         return redirect()->to('../admin/pinjam');
+    }
+
+    public function lappmj()
+    {
+        $pmj = new PinjamModel();
+
+        $data['lappmj'] = $pmj->peminjamanAll();
+        return view('/admin/peminjaman', $data);
+    }
+
+    public function lappmb()
+    {
+        $pmj = new PinjamModel();
+
+        $data['lappmj'] = $pmj->pengembalianAll();
+        return view('/admin/pengembalian', $data);
     }
 }

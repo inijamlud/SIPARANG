@@ -6,13 +6,13 @@ use App\Models\BarangModel;
 use App\Models\PeminjamModel;
 use App\Models\PinjamModel;
 
+
 class Pinjam extends BaseController
 {
 	public function index()
 	{
 		$a = new PinjamModel();
 		$data = [
-			// 'dataTransaksi' => $a->showAll(),
 			'dataTransaksi' => $a->peminjaman(),
 			'judul' => "Data peminjaman"
 		];
@@ -40,19 +40,11 @@ class Pinjam extends BaseController
 					'required' => '{field} tidak boleh kosong'
 				]
 			],
-			'jumlah' => [
-				'label'	=> 'Jumlah',
-				'rules'	=> 'required|greater_than[barang.jenis]',
-				'errors' => [
-					'required' => '{field} tidak boleh kosong',
-					'greater_than' => '{field} melebihi unit yang ada',
-				]
-			],
 			'tgl_kembali' => [
 				'label'	=> 'Tanggal Kembali',
 				'rules'	=> 'required',
 				'errors' => [
-					'required' => '{field} tidak boleh kosong'
+					'required' => '{field} perlu diisi'
 				]
 			]
 		]);
@@ -66,11 +58,17 @@ class Pinjam extends BaseController
 
 		$kode_barang = $this->request->getVar('nama_barang');
 		$jml = $this->request->getVar('jumlah');
+		$stock = $brg->checkStock($kode_barang);
 
-		$checkBrg = $brg->where('kode_barang', $kode_barang)
-			->findAll();
-		$stock = $checkBrg[0]['unit'];
+		if ($jml > $stock) {
+			session()->setFlashData('stock', 'jumlah melebihi unit yang ada');
+			return redirect()->to('/pinjam/tambah')->withInput();
+		} elseif ($jml == 0 || $jml == null) {
+			session()->setFlashData('stock', 'jumlah barang tidak boleh kosong');
+			return redirect()->to('/pinjam/tambah')->withInput();
+		}
 
+		// dd($stock);
 		$brg->update($kode_barang, [
 			'unit' => $stock - $jml
 		]);
@@ -156,5 +154,41 @@ class Pinjam extends BaseController
 		]);
 
 		return redirect()->to('../pinjam');
+	}
+
+	public function pinjam_kembali($id)
+	{
+		$pinjam = new PinjamModel();
+		$barang = new BarangModel();
+
+		$kode_barang = $this->request->getVar('kode_barang');
+		$jml = $this->request->getVar('jumlah');
+		$stock = $barang->checkStock($kode_barang);
+
+		$barang->update($kode_barang, [
+			'unit' => $stock + $jml
+		]);
+
+		$pinjam->update($id, [
+			'status' => '2'
+		]);
+
+		return redirect()->to('../pinjam');
+	}
+
+	public function lappmj()
+	{
+		$pmj = new PinjamModel();
+
+		$data['lappmj'] = $pmj->peminjamanAll();
+		return view('/admin/peminjaman', $data);
+	}
+
+	public function lappmb()
+	{
+		$pmj = new PinjamModel();
+
+		$data['lappmj'] = $pmj->pengembalianAll();
+		return view('/admin/pengembalian', $data);
 	}
 }

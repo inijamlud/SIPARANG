@@ -6,13 +6,13 @@
         <div class="container-fluid">
             <div class="header-body">
                 <div class="row align-items-center py-4">
-                    <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Data Peminjam</h6>
+                    <div class="col-lg-10 col-10">
+                        <h6 class="h2 text-white d-inline-block mb-0">Laporan Peminjaman</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="/admin"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item">Master Data</li>
-                                <li class="breadcrumb-item"><a href="">Data Peminjam</a></li>
+                                <li class="breadcrumb-item"><a href="">Laporan Peminjaman</a></li>
                             </ol>
                         </nav>
                     </div>
@@ -29,10 +29,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">Data Peminjam </h3>
-                            </div>
-                            <div class="col-4 text-right">
-                                <a href="/admin/pmj_tambah" class="btn btn-sm btn-primary"><i class="ni ni-fat-add"></i> Tambah peminjam</a>
+                                <h3 class="mb-0">Laporan Peminjaman </h3>
                             </div>
                         </div>
                     </div>
@@ -41,34 +38,49 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col" class="sort" data-sort="name">#</th>
-                                    <th scope="col" class="sort" data-sort="budget">Nama peminjam</th>
-                                    <th scope="col" class="sort" data-sort="status">Email</th>
-                                    <th scope="col" class="sort" data-sort="completion">Username</th>
-                                    <th scope="col" class="sort" data-sort="completion">Password</th>
-                                    <th class="sort"></th>
+                                    <th scope="col" class="sort">#</th>
+                                    <th scope="col" class="sort">Tanggal Pinjam</th>
+                                    <th scope="col" class="sort">Nama peminjam</th>
+                                    <th scope="col" class="sort">Nama Barang</th>
+                                    <th scope="col" class="sort text-center">Jumlah</th>
+                                    <th scope="col" class="sort">Status</th>
                                 </tr>
                             </thead>
                             <tbody class="list">
                                 <?php $i = 0;
-                                foreach ($dataPeminjam as $pmj) { ?>
+                                foreach ($lappmj as $trs) { ?>
                                     <tr>
                                         <th><?= ++$i; ?></th>
-                                        <td><?= $pmj['name']; ?></td>
-                                        <td><?= $pmj['email']; ?></td>
-                                        <td><?= $pmj['username']; ?></td>
-                                        <td>Password tidak ditampilkan</td>
-                                        <td class="text-right">
-                                            <div class="dropdown">
-                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                    <a class="dropdown-item" href="/admin/pmj_hapus/<?= $pmj['id']; ?>" onclick="return confirm('Anda yakin ingin mengapus?')">Hapus</a>
-                                                    <a class="dropdown-item" href="/admin/pmj_edit/<?= $pmj['id']; ?>">Edit</a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <td><?= $trs['tgl_pinjam']; ?></td>
+                                        <td><?= $trs['name']; ?></td>
+                                        <td><?= $trs['nama_barang']; ?></td>
+                                        <td class="text-center"><?= $trs['jumlah']; ?></td>
+                                        <?php if ($trs['status'] == '0') { ?>
+                                            <td class="text-right">
+                                                <span class="badge badge-dot mr-4">
+                                                    <i class="bg-danger"></i>
+                                                    <span class="status text-warning">Menunggu Konfirmasi</span>
+                                                </span>
+                                            </td>
+                                        <?php } elseif ($trs['status'] == '1') { ?>
+                                            <td>
+                                                <span class="badge badge-dot mr-4">
+                                                    <span class="status text-green">Dipinjam</span>
+                                                </span>
+                                            </td>
+                                        <?php } elseif ($trs['status'] == '2') { ?>
+                                            <td>
+                                                <span class="badge badge-dot mr-4">
+                                                    <span class="status text-warning">Dikembalikan</span>
+                                                </span>
+                                            </td>
+                                        <?php } elseif ($trs['status'] == '3') { ?>
+                                            <td>
+                                                <span class="badge badge-dot mr-4">
+                                                    <span class="status text-danger">Ditolak</span>
+                                                </span>
+                                            </td>
+                                        <?php } ?>
                                     </tr>
                                 <?php } ?>
                             </tbody>

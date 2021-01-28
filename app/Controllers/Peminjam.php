@@ -3,18 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\PeminjamModel;
+use App\Models\PinjamModel;
 
 class Peminjam extends BaseController
 {
-	public function index()
-	{
-		$a = new PeminjamModel();
-		$data = [
-			'dataPeminjam' => $a->findAll(),
-			'judul' => "Data Peminjam"
-		];
-		return view('peminjam', $data);
-	}
 
 	public function tambah()
 	{
@@ -71,7 +63,9 @@ class Peminjam extends BaseController
 			'password_hash' =>  password_hash(
 				base64_encode(
 					hash('sha384', $password, true)
-				),PASSWORD_DEFAULT)
+				),
+				PASSWORD_DEFAULT
+			)
 
 		]);
 
@@ -128,7 +122,7 @@ class Peminjam extends BaseController
 		]);
 
 		if (!$aturan) {
-			return redirect()->to('/peminjam/edit/'.$id)->withInput();
+			return redirect()->to('/peminjam/edit/' . $id)->withInput();
 		}
 
 		$a = new PeminjamModel();
@@ -140,10 +134,21 @@ class Peminjam extends BaseController
 			'password_hash' =>  password_hash(
 				base64_encode(
 					hash('sha384', $password, true)
-				),PASSWORD_DEFAULT)
+				),
+				PASSWORD_DEFAULT
+			)
 
 		]);
 
 		return redirect()->to('../peminjam');
+	}
+
+
+	public function lappen()
+	{
+		$pmj = new PinjamModel();
+
+		$data['lappemb'] = $pmj->pengembalianShowAll();
+		return view('/admin/pengembalian', $data);
 	}
 }

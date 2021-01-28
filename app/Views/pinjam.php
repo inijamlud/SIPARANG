@@ -43,6 +43,7 @@
                                 <tr>
                                     <th scope="col" class="sort">#</th>
                                     <th scope="col" class="sort">Tanggal Pinjam</th>
+                                    <th scope="col" class="sort">Tanggal Kembali</th>
                                     <th scope="col" class="sort">Nama peminjam</th>
                                     <th scope="col" class="sort">Nama Barang</th>
                                     <th scope="col" class="sort text-center">Jumlah</th>
@@ -56,6 +57,7 @@
                                     <tr>
                                         <th><?= ++$i; ?></th>
                                         <td><?= $trs['tgl_pinjam']; ?></td>
+                                        <td><?= $trs['tgl_kembali']; ?></td>
                                         <td><?= $trs['name']; ?></td>
                                         <td><?= $trs['nama_barang']; ?></td>
                                         <td class="text-center"><?= $trs['jumlah']; ?></td>
@@ -70,39 +72,39 @@
                                             <td>
                                                 <span class="badge badge-dot mr-4">
                                                     <i class="bg-green"></i>
-                                                    <span class="status">Dipinjam </span>
+                                                    <span class="status">Dipinjam</span>
+                                                </span>
+                                            </td>
+                                        <?php } elseif ($trs['status'] == '2') { ?>
+                                            <td>
+                                                <span class="badge badge-dot mr-4">
+                                                    <i class="bg-info"></i>
+                                                    <span class="status text-info">Dikembalikan</span>
                                                 </span>
                                             </td>
                                         <?php } elseif ($trs['status'] == '3') { ?>
                                             <td>
                                                 <span class="badge badge-dot mr-4">
-                                                    <i class="bg-danger"></i>
-                                                    <span class="status">Ditolak </span>
+                                                    <i class="bg-warning"></i>
+                                                    <span class="status">Ditolak</span>
                                                 </span>
                                             </td>
                                         <?php } ?>
 
                                         <td class="text-center">
                                             <div class="dropdown">
-                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a>
-                                                <?php if ($trs['status'] == '0') { ?>
+                                                <?php if ($trs['status'] != 2) { ?>
+                                                    <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </a>
+                                                <?php } ?>
+                                                <?php if ($trs['status'] == '1') { ?>
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                        <form action="<?= base_url('pinjam_ok/' . $trs['id_peminjaman']) ?>" method="post">
+                                                        <form action="<?= base_url('pinjam/pinjam_kembali/' . $trs['id_peminjaman']) ?>" method="post">
                                                             <input type="hidden" name="kode_barang" value="<?= $trs['kode_barang']; ?>">
+                                                            <input type="hidden" name="jumlah" value="<?= $trs['jumlah'] ?>">
                                                             <input type="hidden" name="id_peminjaman" value="<?= $trs['id_peminjaman']; ?>">
-                                                            <button type="submit" class="dropdown-item"><i class="fa fa-check"></i>Konfirmasi</button>
-                                                        </form>
-                                                        <form action="<?= base_url('pinjam_tolak') ?>" method="post">
-                                                            <input type="hidden" name="id_pinjam" value="<?= $trs['id_peminjaman'] ?>">
-                                                            <input type="hidden" name="id_peminjam" value="<?= $trs['id_user'] ?>">
-                                                            <input type="hidden" name="id_barang" value="<?= $trs['kode_barang'] ?>">
-                                                            <input type="hidden" name="jml" value="<?= $trs['jumlah'] ?>">
-                                                            <input type="hidden" name="tgl_pinjam" value="<?= $trs['tgl_pinjam'] ?>">
-                                                            <input type="hidden" name="tgl_kembali" value="<?= $trs['tgl_kembali'] ?>">
-                                                            <input type="hidden" name="status" value="0">
-                                                            <button type="submit" class="dropdown-item"><i class="fa fa-times"></i>Tolak</button>
+                                                            <button type="submit" class="dropdown-item"><i class="fa fa-arrow-left"></i>Kembalikan</button>
                                                         </form>
                                                     </div>
                                                 <?php } ?>

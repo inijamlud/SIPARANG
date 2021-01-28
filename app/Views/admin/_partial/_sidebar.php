@@ -60,36 +60,18 @@
           <!-- Laporan -->
           <ul class="navbar-nav mb-md-3">
             <li class="nav-item">
-              <a class="nav-link <?= (current_url() == base_url('lappemj/')) ? 'active' : '' ?>" href="lappemj">
+              <a class="nav-link <?= (current_url() == base_url('admin/lappmj/')) ? 'active' : '' ?>" href="/admin/lappmj/">
                 <i class=" ni ni-basket text-primary"></i>
                 <span class="nav-link-text">Laporan Peminjaman</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <?= (current_url() == base_url('lappen/')) ? 'active' : '' ?>" href="lappen">
+              <a class="nav-link <?= (current_url() == base_url('admin/lappeng/')) ? 'active' : '' ?>" href="/admin/lappmb/">
                 <i class=" ni ni-curved-next text-primary"></i>
                 <span class="nav-link-text">Laporan Pengembalian</span>
               </a>
             </li>
           </ul>
-
-          <?php if (in_groups('superadmin')) : ?>
-            <!-- Divider -->
-            <hr class="my-3">
-            <!-- Heading -->
-            <h6 class="navbar-heading p-0 text-muted">
-              <span class="docs-normal">Akun</span>
-            </h6>
-            <!-- Laporan -->
-            <ul class="navbar-nav mb-md-3">
-              <li class="nav-item">
-                <a class="nav-link <?= (current_url() == base_url('akun/')) ? 'active' : '' ?>" href="akun">
-                  <i class=" ni ni-circle-08 text-green"></i>
-                  <span class="nav-link-text">Akun</span>
-                </a>
-              </li>
-            </ul>
-          <?php endif; ?>
 
         </div>
       </div>

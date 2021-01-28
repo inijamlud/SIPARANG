@@ -11,7 +11,7 @@
             <div class="card-header p-4">
                 <p class="m-0 font-weight-bold text-primary"><i class="ni ni-app"></i> Tambah Barang</p>
             </div>
-            <form action="/barang/simpan" method="post">
+            <form action="/admin/brg_simpan" method="post">
                 <?= csrf_field(); ?>
                 <div class="card-body">
                     <div class="row">
@@ -42,9 +42,9 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                        <label for="unit">unit</label>
-                        <input type="unit" name="unit" id="unit" class="form-control" value="<?= old('unit') ?>">
-                    </div>
+                            <label for="unit">unit</label>
+                            <input type="unit" name="unit" id="unit" class="form-control" value="<?= old('unit') ?>">
+                        </div>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Submit</button>
