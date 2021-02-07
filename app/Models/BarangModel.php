@@ -12,7 +12,7 @@ class BarangModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields  = ['kode_barang', 'nama_barang', 'merk', 'jenis', 'kondisi', 'unit'];
+    protected $allowedFields  = ['kode_barang', 'nama_barang', 'merk', 'jenis', 'unit'];
     protected $useTimestamps  = true;
 
     protected $createdField   = 'created_at';
@@ -24,6 +24,15 @@ class BarangModel extends Model
             ->selectSum('unit')
             ->where('kode_barang', $id)
             ->get()->getRow()->unit;
+    }
+
+    public function search($cari)
+    {
+        return $this->table('barang')
+            ->like('kode_barang', $cari)
+            ->orLike('nama_barang', $cari)
+            ->orLike('merk', $cari)
+            ->orLike('jenis', $cari);
     }
 
     

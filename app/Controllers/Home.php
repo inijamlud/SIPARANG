@@ -16,9 +16,7 @@ class Home extends BaseController
 		$data = [
 			'brg' => $brgModel->countAll(),
 			'akun' => $pmjModel->countAll(),
-			'peminjaman' => $pinjam->countAll(),
-			'pengembalian' => $pinjam->pmbCountAll(),
-			'judul' => "Dashboard",
+			'peminjaman' => $pinjam->userPmjcount(),
 		];
 
 		if ($this->cek_admin() == true) {

@@ -7,14 +7,23 @@ use App\Models\BarangModel;
 class Barang extends BaseController
 {
 	public function index()
-	{	
+	{
 		$a = new BarangModel();
+		$cari = $this->request->getVar('cari');
+		// $a = new BarangModel();
+
+		if ($cari) {
+			$hasil = $a->search($cari);
+		} else {
+			$hasil = $a;
+		}
+
 		$data = [
 			// 'dataBrg' => $a->findAll(),
-			'dataBrg' => $a->paginate(5, 'brg_pages'),
-			'pager' => $a->pager,
+			'dataBrg' => $hasil->paginate(10, 'brg'),
+			'pager' => $hasil->pager,
 			'judul' => "Data Barang",
-			
+
 		];
 		return view('barang', $data);
 	}
@@ -98,10 +107,10 @@ class Barang extends BaseController
 		]);
 
 		if (!$aturan) {
-			return redirect()->to('barang/edit/'.$id)->withInput();
+			return redirect()->to('barang/edit/' . $id)->withInput();
 		}
 
-		$a= new BarangModel();
+		$a = new BarangModel();
 		$a->update($id, [
 			'nama_barang' => $this->request->getVar('nama_barang'),
 			'merk' => $this->request->getVar('merk'),

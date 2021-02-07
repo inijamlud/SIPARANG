@@ -12,7 +12,7 @@
                 <p class="m-0 font-weight-bold text-primary"><i class="ni ni-app"></i> Edit Barang</p>
             </div>
             <?php foreach ($peminjam as $pmj) { ?>
-                <form action="/peminjam/proses_edit/<?= $pmj['id']; ?>" method="post">
+                <form action="/admin/pmj_proses_edit/<?= $pmj['id']; ?>" method="post">
                     <?= csrf_field(); ?>
                     <div class="card-body">
                         <div class="row">

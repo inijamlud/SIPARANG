@@ -12,6 +12,7 @@ class Pinjam extends BaseController
 	public function index()
 	{
 		$a = new PinjamModel();
+
 		$data = [
 			'dataTransaksi' => $a->peminjaman(),
 			'judul' => "Data peminjaman"
@@ -180,15 +181,15 @@ class Pinjam extends BaseController
 	{
 		$pmj = new PinjamModel();
 
-		$data['lappmj'] = $pmj->peminjamanAll();
-		return view('/admin/peminjaman', $data);
+		$data['lappmj'] = $pmj->userPmj();
+		return view('peminjaman', $data);
 	}
 
 	public function lappmb()
 	{
 		$pmj = new PinjamModel();
 
-		$data['lappmj'] = $pmj->pengembalianAll();
-		return view('/admin/pengembalian', $data);
+		$data['lappmj'] = $pmj->pengembalian();
+		return view('pengembalian', $data);
 	}
 }

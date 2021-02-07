@@ -11,6 +11,7 @@ class Admin extends BaseController
 
     public function index()
     {
+
         $brgModel = new BarangModel();
         $pmjModel = new PeminjamModel();
         $pinjamModel = new PinjamModel();
@@ -30,11 +31,18 @@ class Admin extends BaseController
     public function barang()
     {
         $a = new BarangModel();
+        $cari = $this->request->getVar('cari');
+
+        if ($cari) {
+            $hasil = $a->search($cari);
+        } else {
+            $hasil = $a;
+        }
+
+        // $a = new BarangModel();
         $data = [
-            // 'dataBrg' => $a->findAll(),
-            'dataBrg' => $a->paginate(5, 'brg_pages'),
-            'pager' => $a->pager,
-            'judul' => "Data Barang",
+            'dataBrg' => $hasil->paginate(10, 'brg'),
+            'pager' => $hasil->pager,
 
         ];
         return view('admin/barang', $data);
@@ -140,11 +148,19 @@ class Admin extends BaseController
     public function peminjam()
     {
         $a = new PeminjamModel();
+        $cari = $this->request->getVar('cari');
+
+        if ($cari) {
+            $hasil = $a->search($cari);
+        } else {
+            $hasil = $a;
+        }
+
         $data = [
-            'dataPeminjam' => $a->findAll(),
-            'judul' => "Data Peminjam"
+            'dataPeminjam' => $hasil->paginate(10, 'peminjam'),
+            'pager' => $hasil->pager,
         ];
-        return view('admin/peminjam', $data);
+        return view('/admin/peminjam', $data);
     }
 
     public function pmj_tambah()
@@ -289,10 +305,21 @@ class Admin extends BaseController
     public function pinjam()
     {
         $a = new PinjamModel();
+        // $cari = $this->request->getVar('cari');
+
+        // if ($cari) {
+        //     $hasil = $a->search($cari);
+        // } else {
+        $hasil = $a->showAll();
+        // }
+
         $data = [
-            'dataTransaksi' => $a->showAll(),
-            'dataPmj' => $a->peminjaman(),
+            'dataTransaksi' => $hasil,
+
+            // 'dataTransaksi' => $hasil->paginate(5, 'pmj'),
+            // 'pager' => $hasil->pager,
         ];
+        // echo 'hello';
         return view('admin/pinjam', $data);
     }
 
@@ -310,7 +337,7 @@ class Admin extends BaseController
     public function pinjam_ok($id)
     {
         $pinjam = new PinjamModel();
-        $barang = new BarangModel();
+        // $barang = new BarangModel();
 
         // $kode_barang = $this->request->getVar('kode_barang');
         // $checkBrg = $barang->where('kode_barang', $kode_barang)
@@ -350,7 +377,6 @@ class Admin extends BaseController
         $pinjam->update($id, [
             'status' => '3',
             'approved' => '0',
-            'tgl_approved' => date('Y-m-d'),
         ]);
 
         return redirect()->to('../admin/pinjam');
@@ -370,5 +396,9 @@ class Admin extends BaseController
 
         $data['lappmj'] = $pmj->pengembalianAll();
         return view('/admin/pengembalian', $data);
+    }
+
+    public function search($x)
+    {
     }
 }

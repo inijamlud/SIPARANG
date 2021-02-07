@@ -7,8 +7,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-10 col-10">
-                        <h6 class="h2 text-white d-inline-block mb-0">Laporan Peminjaman</h6>
-                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="/admin"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item">Master Data</li>
@@ -71,7 +70,7 @@
                                         <?php } elseif ($trs['status'] == '2') { ?>
                                             <td>
                                                 <span class="badge badge-dot mr-4">
-                                                    <span class="status text-warning">Dikembalikan</span>
+                                                    <span class="status text-info">Dikembalikan</span>
                                                 </span>
                                             </td>
                                         <?php } elseif ($trs['status'] == '3') { ?>
@@ -88,29 +87,7 @@
                     </div>
                     <!-- Card footer -->
                     <div class="card-footer py-4">
-                        <nav aria-label="...">
-                            <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">
-                                        <i class="fas fa-angle-left"></i>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fas fa-angle-right"></i>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                       
                     </div>
                 </div>
             </div>
